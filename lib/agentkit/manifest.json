@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "version": "1.0.0",
+  "product": "pipmcp",
+  "credential": "PIPMCP_API_KEY",
+  "skills": [
+    {
+      "name": "pipmcp-uptimerobot",
+      "description": "Connect AI agents to UptimeRobot using one PipMCP API key and actual hosted tool discovery."
+    }
+  ],
+  "files": {
+    "skills/pipmcp-uptimerobot/SKILL.md": "7865060f7860327f7706ef2f853e21f7f06f27e7368db1a18aa482f9d555be9d"
+  }
+}
