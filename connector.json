@@ -1,0 +1,249 @@
+{
+  "id": "uptimerobot",
+  "appSlug": "uptimerobot",
+  "name": "UptimeRobot",
+  "version": "0.2.0",
+  "baseUrl": "https://api.uptimerobot.com/v3",
+  "auth": {
+    "type": "bearer",
+    "env": "UPTIMEROBOT_API_KEY"
+  },
+  "tools": [
+    {
+      "name": "list_monitors",
+      "description": "List monitors.",
+      "method": "GET",
+      "path": "/monitors",
+      "readOnly": true,
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200
+          },
+          "cursor": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 999999999
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "bindings": {
+        "path": [],
+        "query": {
+          "limit": "limit",
+          "cursor": "cursor"
+        },
+        "body": {}
+      },
+      "sampleArguments": {
+        "limit": 10
+      },
+      "provenance": [
+        "https://uptimerobot.com/blog/introducing-the-uptimerobot-v3-api/",
+        "https://raw.githubusercontent.com/uptimerobot/uptimerobot-cli/main/openapi/openapi.yaml"
+      ],
+      "approvalRequired": false,
+      "evidence": {
+        "providerLiveValidation": "not-run",
+        "localValidation": "provider-request-fixture"
+      }
+    },
+    {
+      "name": "get_monitor",
+      "description": "Get monitor.",
+      "method": "GET",
+      "path": "/monitors/{id}",
+      "readOnly": true,
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 999999999
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "bindings": {
+        "path": [
+          "id"
+        ],
+        "query": {},
+        "body": {}
+      },
+      "sampleArguments": {
+        "id": 12345
+      },
+      "provenance": [
+        "https://uptimerobot.com/blog/introducing-the-uptimerobot-v3-api/",
+        "https://raw.githubusercontent.com/uptimerobot/uptimerobot-cli/main/openapi/openapi.yaml"
+      ],
+      "approvalRequired": false,
+      "evidence": {
+        "providerLiveValidation": "not-run",
+        "localValidation": "provider-request-fixture"
+      }
+    },
+    {
+      "name": "create_http_monitor",
+      "description": "Create http monitor.",
+      "method": "POST",
+      "path": "/monitors",
+      "readOnly": false,
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "friendlyName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 250,
+            "description": "Value"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "maxLength": 10000
+          },
+          "interval": {
+            "type": "integer",
+            "minimum": 30,
+            "maximum": 86400
+          },
+          "timeout": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 60
+          }
+        },
+        "required": [
+          "friendlyName",
+          "url",
+          "interval",
+          "timeout"
+        ],
+        "additionalProperties": false
+      },
+      "bindings": {
+        "path": [],
+        "query": {},
+        "body": {
+          "friendlyName": "friendlyName",
+          "url": "url",
+          "interval": "interval",
+          "timeout": "timeout"
+        }
+      },
+      "sampleArguments": {
+        "friendlyName": "Reviewed website",
+        "url": "https://example.com",
+        "interval": 300,
+        "timeout": 30
+      },
+      "body": {
+        "type": "HTTP"
+      },
+      "provenance": [
+        "https://uptimerobot.com/blog/introducing-the-uptimerobot-v3-api/",
+        "https://raw.githubusercontent.com/uptimerobot/uptimerobot-cli/main/openapi/openapi.yaml"
+      ],
+      "approvalRequired": true,
+      "evidence": {
+        "providerLiveValidation": "not-run",
+        "localValidation": "provider-request-fixture"
+      }
+    }
+  ],
+  "workflow": {
+    "name": "Review monitor health then create an approved HTTP monitor",
+    "description": "Review monitor health then create an approved HTTP monitor. Read provider data first, then explicitly approve the selected change with operator write opt-in and a unique per-call approval key.",
+    "steps": [
+      "list_monitors",
+      "get_monitor",
+      "create_http_monitor"
+    ]
+  },
+  "provenance": [
+    "https://uptimerobot.com/blog/introducing-the-uptimerobot-v3-api/",
+    "https://raw.githubusercontent.com/uptimerobot/uptimerobot-cli/main/openapi/openapi.yaml"
+  ],
+  "verification": "mock-only",
+  "providerLiveValidation": "not-run",
+  "capabilityEvidence": {
+    "local": {
+      "level": "Tested",
+      "operations": [
+        {
+          "name": "list_monitors",
+          "level": "Tested",
+          "evidenceRefs": [
+            "Provider request/stdio contract tests"
+          ],
+          "method": "contract-fixture"
+        },
+        {
+          "name": "get_monitor",
+          "level": "Tested",
+          "evidenceRefs": [
+            "Provider request/stdio contract tests"
+          ],
+          "method": "contract-fixture"
+        },
+        {
+          "name": "create_http_monitor",
+          "level": "Tested",
+          "evidenceRefs": [
+            "Provider request/stdio contract tests"
+          ],
+          "method": "contract-fixture"
+        }
+      ],
+      "evidenceRefs": [
+        "Provider request/stdio contract tests"
+      ],
+      "mode": "local"
+    },
+    "managed": {
+      "level": "Documented",
+      "operations": [
+        {
+          "name": "list_monitors",
+          "level": "Documented",
+          "evidenceRefs": [],
+          "method": "documentation"
+        },
+        {
+          "name": "get_monitor",
+          "level": "Documented",
+          "evidenceRefs": [],
+          "method": "documentation"
+        },
+        {
+          "name": "create_http_monitor",
+          "level": "Documented",
+          "evidenceRefs": [],
+          "method": "documentation"
+        }
+      ],
+      "evidenceRefs": [],
+      "mode": "managed"
+    }
+  },
+  "repoId": "uptimerobot-mcp",
+  "product": "pipmcp",
+  "artifactType": "connector",
+  "sourceRevision": "9fa26393ddbf0cb4a818c4ab2c9aa4918fd5528e81e901d15be2dd3e7f0ced60",
+  "managedAvailability": {
+    "status": "import-required",
+    "integration": "openapi-to-mcp",
+    "checkedAt": "2026-11-08T13:20:45.156456+00:00"
+  }
+}
